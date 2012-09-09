@@ -1,0 +1,14 @@
+{% load adminmedia %}
+{% if settings.hide_app_list %}
+<script type="text/javascript" src="{% admin_media_prefix %}/js/jquery.js"></script>
+<script type="text/javascript">
+	jQuery(function(){
+		$('#content').hide();
+		$('#toggle_app_list').bind('click', function(e){
+			e.preventDefault();
+			$('#content').slideToggle();
+			$(this).toggleClass('open');
+		});
+	});
+</script>
+{% endif %}
