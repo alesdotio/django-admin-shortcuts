@@ -7,7 +7,7 @@ from importlib import import_module
 
 register = template.Library()
 
-CLASS_MAPPINGS = [
+CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
     ['cms_page', 'pages'],
     ['product', 'product'],
     ['order', 'order'],
@@ -24,13 +24,16 @@ CLASS_MAPPINGS = [
     ['store', 'location'],
     ['add', 'add'],
     ['change', 'change'],
-]
+])
 
 
 @register.inclusion_tag('admin_shortcuts/base.html')
 def admin_shortcuts():
-    admin_shortcuts = settings.ADMIN_SHORTCUTS
-    admin_shortcuts_settings = settings.ADMIN_SHORTCUTS_SETTINGS
+    admin_shortcuts = getattr(settings, 'ADMIN_SHORTCUTS', None)
+    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None)
+
+    if not admin_shortcuts:
+        return ''
 
     for group in admin_shortcuts:
         if not group.get('shortcuts'):
@@ -46,6 +49,8 @@ def admin_shortcuts():
                     shortcut['url'] = reverse(url_name[0], args=url_name[1:])
                 else:
                     shortcut['url'] = reverse(url_name)
+
+                shortcut['url'] += shortcut.get('url_extra', '')
 
             if not shortcut.get('class'):
                 shortcut['class'] = get_shortcut_class(shortcut.get('url_name', shortcut['url']))
@@ -66,13 +71,12 @@ def admin_shortcuts():
 def admin_shortcuts_css():
     return {
         'classes': [value for key, value in CLASS_MAPPINGS],
-        'STATIC_URL': settings.STATIC_URL,
     }
 
 
 @register.inclusion_tag('admin_shortcuts/js.html')
 def admin_shortcuts_js():
-    admin_shortcuts_settings = settings.ADMIN_SHORTCUTS_SETTINGS
+    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None)
     return {
         'settings': admin_shortcuts_settings,
     }

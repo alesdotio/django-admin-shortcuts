@@ -1,5 +1,5 @@
 {% extends 'admin_shortcuts/base.css' %}
-{% load adminmedia %}
+{% load adminmedia static %}
 
 {% block main %}
 /* shortcuts */
@@ -41,9 +41,9 @@
 
 {% block icons %}
 /* icons */
-.admin_shortcuts .shortcuts li a { background-image: url('{{ STATIC_URL }}admin_shortcuts/default.png'); }
-.admin_shortcuts .shortcuts li a.home { background-image: url('{{ STATIC_URL }}admin_shortcuts/home.png'); }
+.admin_shortcuts .shortcuts li a { background-image: url('{% static "admin_shortcuts" %}/default.png'); }
+.admin_shortcuts .shortcuts li a.home { background-image: url('{% static "admin_shortcuts" %}/home.png'); }
 {% for class in classes %}
-.admin_shortcuts .shortcuts li a.{{ class }} { background-image: url('{{ STATIC_URL }}admin_shortcuts/{{ class }}.png'); }
+.admin_shortcuts .shortcuts li a.{{ class }} { background-image: url('{% static "admin_shortcuts" %}/{{ class }}.png'); }
 {% endfor %}
 {% endblock %}

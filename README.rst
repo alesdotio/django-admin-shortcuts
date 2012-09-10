@@ -34,7 +34,7 @@ How do i use it?
 
 3) add ``ADMIN_SHORTCUTS`` to your settings
 
-For example:
+    For example:
 ::
 
     ADMIN_SHORTCUTS = [
@@ -51,8 +51,10 @@ For example:
     ]
 
 Where ...
+
     * ``url_name`` is a name that will be resolved using django's reverse url method (see https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#reversing-admin-urls)
     * optional ``url`` is a direct link that will override ``url_name``
+    * optional ``url_extra`` is extra stuff to be attached at the end of the url (like GET data for pre-filtering admin views)
     * optional ``title`` is the title of the shortcut
     * optional ``count`` and ``count_new`` are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders)
     * optional ``open_new_window`` sets whether the link should open in a new window (default is False)
@@ -71,6 +73,7 @@ Where ...
 
 
 Where ...
+
     * optional ``hide_app_list`` collapses the app list
     * optional ``open_new_window`` makes all shortcuts open in a new window
 
@@ -133,10 +136,33 @@ What are the settings used in the pretty image above?
 
 
 
-I want to change how it looks
-=============================
+I want to change how stuff looks
+================================
 
-* just overwrite the ``templates/admin_shortcuts/base.css`` template
+* overwrite the ``templates/admin_shortcuts/base.css`` template
+* specify desired ``url_name`` to ``class`` mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
+
+    The default ones are:
+::
+
+    [
+        ['cms_page', 'pages'],
+        ['product', 'product'],
+        ['order', 'order'],
+        ['category', 'category'],
+        ['user', 'user'],
+        ['folder', 'folder'],
+        ['gallery', 'gallery'],
+        ['blog', 'blog'],
+        ['event', 'event'],
+        ['mail', 'mail'],
+        ['message', 'mail'],
+        ['contact', 'mail'],
+        ['location', 'location'],
+        ['store', 'location'],
+        ['add', 'add'],
+        ['change', 'change'],
+    ]
 
 
 
