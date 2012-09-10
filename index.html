@@ -31,32 +31,139 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1></h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h1>django Admin Shortcuts</h1>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h1>What is this?</h1>
+
+<p>It's a simple dashboard app that adds shortcuts to your django admin homepage. The keyword here is SIMPLE!</p>
+
+<h1>Why does it exist?</h1>
+
+<p>Because some people noted that it's sometimes hard to find the app you are looking for on the admin homepage.</p>
+
+<p>"So why don't we customize the admin site a bit?"</p>
+
+<p>"Nah, I don't want to go through all the hassle of editing templates or setting up a complex dashboard app ..."</p>
+
+<p>Well, good thing django-admin-shortcuts is here, because it only takes five minutes of your time to go from the old
+dreadfully boring admin to the marvelous engineering excellence that is this app.</p>
+
+<h1>How do i use it?</h1>
+
+<p>1) <code>pip install django-admin-shortcuts</code></p>
+
+<p>2) add <code>'admin_shortcuts'</code> to your <code>INSTALLED_APPS</code>, just before <code>'admin'</code> &lt;-- IMPORTANT</p>
+
+<p>3) add <code>ADMIN_SHORTCUTS</code> to your settings</p>
+
+<p>For example:
+::</p>
+
+<pre><code>ADMIN_SHORTCUTS = [
+    {
+        'title': _('Shop'),
+        'shortcuts': [
+            {
+                'url_name': 'admin:shop_order_changelist',
+                'title': _('Products'),
+                'count_new': 'project.utils.count_new_orders',
+            },
+        ]
+    },
+]
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Where ...
+    * <code>url_name</code> is a name that will be resolved using django's reverse url method (see <a href="https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#reversing-admin-urls">https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#reversing-admin-urls</a>)
+    * optional <code>url</code> is a direct link that will override <code>url_name</code>
+    * optional <code>title</code> is the title of the shortcut
+    * optional <code>count</code> and <code>count_new</code> are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders)
+    * optional <code>open_new_window</code> sets whether the link should open in a new window (default is False)
+    * optional <code>class</code> is the CSS class to be added to the anchor element (if you don't specify one, magical ponies will do it for you)</p>
 
-<h3>Designer Templates</h3>
+<p>4) profit!!</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>5) optionally, also add <code>ADMIN_SHORTCUTS_SETTINGS</code> to your settings</p>
 
-<h3>Rather Drive Stick?</h3>
+<p>::</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<pre><code>ADMIN_SHORTCUTS_SETTINGS = {
+    'hide_app_list': False,
+    'open_new_window': False,
+}
+</code></pre>
 
-<h3>Authors and Contributors</h3>
+<p>Where ...
+    * optional <code>hide_app_list</code> collapses the app list
+    * optional <code>open_new_window</code> makes all shortcuts open in a new window</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h1>What are the settings used in the pretty image above?</h1>
 
-<h3>Support or Contact</h3>
+<p>::</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<pre><code>ADMIN_SHORTCUTS = [
+    {
+        'shortcuts': [
+            {
+                'url': '/',
+                'open_new_window': True,
+            },
+            {
+                'url_name': 'admin:cms_page_changelist',
+                'title': _('Pages'),
+            },
+            {
+                'url_name': 'admin:filer_folder_changelist',
+                'title': _('Files'),
+            },
+            {
+                'url_name': 'admin:auth_user_changelist',
+                'title': _('Users'),
+            },
+            {
+                'url_name': 'admin:contactform_contactformsubmission_changelist',
+                'title': _('Contact forms'),
+                'count_new': 'project.utils.count_new_contactforms',
+            },
+        ]
+    },
+    {
+        'title': _('Shop'),
+        'shortcuts': [
+            {
+                'url_name': 'admin:shop_product_changelist',
+                'title': _('Products'),
+                'count': 'project.utils.count_products',
+            },
+            {
+                'url_name': 'admin:shop_category_changelist',
+                'title': _('Categories'),
+            },
+            {
+                'url_name': 'admin:shop_order_changelist',
+                'title': _('Orders'),
+                'count_new': 'project.utils.count_new_orders',
+            },
+        ]
+    },
+]
+ADMIN_SHORTCUTS_SETTINGS = {
+    'hide_app_list': True,
+    'open_new_window': False,
+}
+</code></pre>
+
+<h1>I want to change how it looks</h1>
+
+<ul>
+<li>just overwrite the <code>templates/admin_shortcuts/base.css</code> template</li>
+</ul><h2>Notes</h2>
+
+<ul>
+<li>Icons grabbed from Pixeden.com</li>
+</ul>
       </section>
     </div>
 
