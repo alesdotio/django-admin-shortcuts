@@ -26,64 +26,11 @@ CLASS_MAPPINGS = [
     ['change', 'change'],
 ]
 
-ADMIN_SHORTCUTS = [
-    {
-        'shortcuts': [
-            {
-                'url': '/',
-                'open_new_window': True,
-            },
-            {
-                'url_name': 'admin:cms_page_changelist',
-                'title': _('Pages'),
-            },
-            {
-                'url_name': 'admin:filer_folder_changelist',
-                'title': _('Files'),
-            },
-            {
-                'url_name': 'admin:auth_user_changelist',
-                'title': _('Users'),
-            },
-            {
-                'url_name': 'admin:contactform_contactformsubmission_changelist',
-                'title': _('Contact forms'),
-                'count_new': 'adri_shop.utils.count_new_contactforms',
-            },
-        ]
-    },
-    {
-        'title': _('Shop'),
-        'shortcuts': [
-            {
-                'url_name': 'admin:adri_shop_adriproduct_changelist',
-                'title': _('Products'),
-                'count': 'adri_shop.utils.count_products',
-            },
-            {
-                'url_name': 'admin:adri_shop_category_changelist',
-                'title': _('Categories'),
-            },
-            {
-                'url_name': 'admin:adri_shop_adriorder_changelist',
-                'title': _('Orders'),
-                'count_new': 'adri_shop.utils.count_new_orders',
-            },
-        ]
-    },
-]
-ADMIN_SHORTCUTS_SETTINGS = {
-    'hide_app_list': False,
-    'open_new_window': False,
-}
-
 
 @register.inclusion_tag('admin_shortcuts/base.html')
 def admin_shortcuts():
-    #admin_shortcuts = settings.ADMIN_SHORTCUTS
-    admin_shortcuts = ADMIN_SHORTCUTS
-    #admin_shortcuts_settings = settings.ADMIN_SHORTCUTS_SETTINGS
-    admin_shortcuts_settings = ADMIN_SHORTCUTS_SETTINGS
+    admin_shortcuts = settings.ADMIN_SHORTCUTS
+    admin_shortcuts_settings = settings.ADMIN_SHORTCUTS_SETTINGS
 
     for group in admin_shortcuts:
         if not group.get('shortcuts'):
@@ -122,8 +69,7 @@ def admin_shortcuts_css():
 
 @register.inclusion_tag('admin_shortcuts/js.html')
 def admin_shortcuts_js():
-    #admin_shortcuts_settings = settings.ADMIN_SHORTCUTS_SETTINGS
-    admin_shortcuts_settings = ADMIN_SHORTCUTS_SETTINGS
+    admin_shortcuts_settings = settings.ADMIN_SHORTCUTS_SETTINGS
     return {
         'settings': admin_shortcuts_settings,
     }
