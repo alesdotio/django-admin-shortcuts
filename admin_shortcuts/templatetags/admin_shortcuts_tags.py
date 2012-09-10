@@ -42,7 +42,10 @@ def admin_shortcuts():
                 except KeyError:
                     raise ImproperlyConfigured(_('settings.ADMIN_SHORTCUTS is improperly configured. '
                                                   'Please supply either a "url" or a "url_name" for each shortcut.'))
-                shortcut['url'] = reverse(url_name)
+                if isinstance(url_name, list):
+                    shortcut['url'] = reverse(url_name[0], args=url_name[1:])
+                else:
+                    shortcut['url'] = reverse(url_name)
 
             if not shortcut.get('class'):
                 shortcut['class'] = get_shortcut_class(shortcut.get('url_name', shortcut['url']))
