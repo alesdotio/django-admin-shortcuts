@@ -2,27 +2,146 @@
 django Admin Shortcuts
 ======================
 
+.. image:: http://something.png
+
+
+
 What is this?
 =============
+
+It's a simple dashboard app that adds shortcuts to your django admin homepage. The keyword here is SIMPLE!
 
 
 Why does it exist?
 ==================
 
+Because some people noted that it's sometimes hard to find the app you are looking for on the admin homepage.
+
+"So why don't we customize the admin site a bit?"
+
+"Nah, I don't want to go through all the hassle of editing templates or setting up a complex dashboard app ..."
+
+Well, good thing django-admin-shortcuts is here, because it only takes five minutes of your time to go from the old
+dreadfully boring admin to the marvelous engineering excellence that is this app.
+
 
 How do i use it?
 ================
 
-* add the app in to your `INSTALLED_APPS` before `admin`
+1) ``pip install django-admin-shortcuts``
+
+2) add ``'admin_shortcuts'`` to your ``INSTALLED_APPS``, just before ``'admin'`` <-- IMPORTANT
+
+3) add ``ADMIN_SHORTCUTS`` to your settings
+
+For example:
+::
+
+    ADMIN_SHORTCUTS = [
+        {
+            'title': _('Shop'),
+            'shortcuts': [
+                {
+                    'url_name': 'admin:shop_order_changelist',
+                    'title': _('Products'),
+                    'count_new': 'project.utils.count_new_orders',
+                },
+            ]
+        },
+    ]
+
+Where ...
+    * ``url_name`` is a name that will be resolved using django's reverse url method (see https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#reversing-admin-urls)
+    * optional ``url`` is a direct link that will override ``url_name``
+    * optional ``title`` is the title of the shortcut
+    * optional ``count`` and ``count_new`` are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders)
+    * optional ``open_new_window`` sets whether the link should open in a new window (default is False)
+    * optional ``class`` is the CSS class to be added to the anchor element (if you don't specify one, magical ponies will do it for you)
+
+4) profit!!
+
+5) optionally, also add ``ADMIN_SHORTCUTS_SETTINGS`` to your settings
+
+::
+
+    ADMIN_SHORTCUTS_SETTINGS = {
+        'hide_app_list': False,
+        'open_new_window': False,
+    }
 
 
-I want to change how this looks
-===============================
-
-* just overwrite the `style.css` template
-
+Where ...
+    * optional ``hide_app_list`` collapses the app list
+    * optional ``open_new_window`` makes all shortcuts open in a new window
 
 
+What are the settings used in the pretty image above?
+=====================================================
 
-Icons grabbed from Pixeden.com
+::
+
+    ADMIN_SHORTCUTS = [
+        {
+            'shortcuts': [
+                {
+                    'url': '/',
+                    'open_new_window': True,
+                },
+                {
+                    'url_name': 'admin:cms_page_changelist',
+                    'title': _('Pages'),
+                },
+                {
+                    'url_name': 'admin:filer_folder_changelist',
+                    'title': _('Files'),
+                },
+                {
+                    'url_name': 'admin:auth_user_changelist',
+                    'title': _('Users'),
+                },
+                {
+                    'url_name': 'admin:contactform_contactformsubmission_changelist',
+                    'title': _('Contact forms'),
+                    'count_new': 'project.utils.count_new_contactforms',
+                },
+            ]
+        },
+        {
+            'title': _('Shop'),
+            'shortcuts': [
+                {
+                    'url_name': 'admin:shop_product_changelist',
+                    'title': _('Products'),
+                    'count': 'project.utils.count_products',
+                },
+                {
+                    'url_name': 'admin:shop_category_changelist',
+                    'title': _('Categories'),
+                },
+                {
+                    'url_name': 'admin:shop_order_changelist',
+                    'title': _('Orders'),
+                    'count_new': 'project.utils.count_new_orders',
+                },
+            ]
+        },
+    ]
+    ADMIN_SHORTCUTS_SETTINGS = {
+        'hide_app_list': True,
+        'open_new_window': False,
+    }
+
+
+
+I want to change how it looks
+=============================
+
+* just overwrite the ``templates/admin_shortcuts/base.css`` template
+
+
+
+Notes
+-----
+
+* Icons grabbed from Pixeden.com
 
