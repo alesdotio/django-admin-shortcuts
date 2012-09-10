@@ -1,5 +1,5 @@
 {% extends 'admin_shortcuts/base.css' %}
-{% load adminmedia static %}
+{% load static admin_shortcuts_tags %}
 
 {% block main %}
 /* shortcuts */
@@ -30,7 +30,7 @@
 {% block advanced %}
 /* advanced button */
 .admin_shortcuts #toggle_app_list { display: block; text-align: center; padding: 2px 0; color: #fff; font-size: 11px;
-	font-weight: bold; background: #7CA0C7 url('{% admin_media_prefix %}/img/default-bg.gif') 0 100% repeat-x;
+	font-weight: bold; background: #7CA0C7 url('{% admin_static_url %}/img/default-bg.gif') 0 100% repeat-x;
 	border-bottom: 1px solid #6093ae; }
 .admin_shortcuts #toggle_app_list:hover { background-position: 0 50%; }
 .admin_shortcuts #toggle_app_list .closed { display: inline; }
