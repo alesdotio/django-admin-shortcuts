@@ -8,25 +8,6 @@ from importlib import import_module
 
 register = template.Library()
 
-CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
-    ['cms_page', 'pages'],
-    ['product', 'product'],
-    ['order', 'order'],
-    ['category', 'category'],
-    ['user', 'user'],
-    ['folder', 'folder'],
-    ['gallery', 'gallery'],
-    ['blog', 'blog'],
-    ['event', 'event'],
-    ['mail', 'mail'],
-    ['message', 'mail'],
-    ['contact', 'mail'],
-    ['location', 'location'],
-    ['store', 'location'],
-    ['add', 'add'],
-    ['change', 'change'],
-])
-
 
 @register.inclusion_tag('admin_shortcuts/base.html')
 def admin_shortcuts():
@@ -94,15 +75,6 @@ def eval_func(func_path):
         return func_path
 
 
-def get_shortcut_class(url):
-    if url == '/':
-        return 'home'
-    for key, value in CLASS_MAPPINGS:
-        if key in url:
-            return value
-    return ''
-
-
 @register.simple_tag
 def admin_static_url():
     """
@@ -110,3 +82,89 @@ def admin_static_url():
     """
     return getattr(settings, 'ADMIN_MEDIA_PREFIX', None) or ''.join([settings.STATIC_URL, 'admin/'])
 
+
+def get_shortcut_class(url):
+    if url == '/':
+        return 'home'
+    for key, value in CLASS_MAPPINGS:
+        if key is not None and key in url:
+            return value
+    return 'config' # default icon
+
+
+CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
+    ['cms_page', 'file2'],
+    ['product', 'basket'],
+    ['order', 'cash'],
+    ['category', 'archive'],
+    ['user', 'user'],
+    ['account', 'user'],
+    ['address', 'letter'],
+    ['folder', 'folder'],
+    ['gallery', 'picture'],
+    ['blog', 'blog'],
+    ['event', 'date'],
+    ['mail', 'openmail'],
+    ['message', 'openmail'],
+    ['contact', 'openmail'],
+    ['location', 'pin'],
+    ['store', 'pin'],
+    ['delivery', 'delivery2'],
+    ['shipping', 'delivery2'],
+    ['add', 'plus'],
+    ['change', 'pencil'],
+    ['home', 'home'],
+
+    # extra classes
+    [None, 'archive'],
+    [None, 'back'],
+    [None, 'camera'],
+    [None, 'card'],
+    [None, 'cd'],
+    [None, 'certificate'],
+    [None, 'clock'],
+    [None, 'cloud1'],
+    [None, 'cloud2'],
+    [None, 'cloud3'],
+    [None, 'cloud4'],
+    [None, 'config'],
+    [None, 'config2'],
+    [None, 'date'],
+    [None, 'delivery1'],
+    [None, 'diskette'],
+    [None, 'file1'],
+    [None, 'file3'],
+    [None, 'file4'],
+    [None, 'film'],
+    [None, 'flag'],
+    [None, 'gamepad'],
+    [None, 'garbage'],
+    [None, 'gift'],
+    [None, 'help'],
+    [None, 'key'],
+    [None, 'less'],
+    [None, 'letters'],
+    [None, 'light'],
+    [None, 'lock'],
+    [None, 'love'],
+    [None, 'mail'],
+    [None, 'monitor'],
+    [None, 'music'],
+    [None, 'note'],
+    [None, 'notepad'],
+    [None, 'ok'],
+    [None, 'package'],
+    [None, 'phone'],
+    [None, 'pin'],
+    [None, 'print'],
+    [None, 'sound'],
+    [None, 'suitcase'],
+    [None, 'tag'],
+    [None, 'ticket'],
+    [None, 'tool'],
+    [None, 'unlock'],
+    [None, 'wallet'],
+    [None, 'warning'],
+    [None, 'way'],
+    [None, 'zoom'],
+])
