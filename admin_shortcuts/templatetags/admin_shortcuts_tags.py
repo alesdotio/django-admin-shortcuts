@@ -1,3 +1,4 @@
+import copy
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -29,8 +30,8 @@ CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
 
 @register.inclusion_tag('admin_shortcuts/base.html')
 def admin_shortcuts():
-    admin_shortcuts = getattr(settings, 'ADMIN_SHORTCUTS', None)
-    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None)
+    admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
+    admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
 
     if not admin_shortcuts:
         return ''
