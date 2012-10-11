@@ -9,9 +9,12 @@ from importlib import import_module
 register = template.Library()
 
 
-@register.inclusion_tag('admin_shortcuts/base.html')
-def admin_shortcuts():
-    admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
+@register.inclusion_tag('admin_shortcuts/base.html', takes_context=True)
+def admin_shortcuts(context):
+    if 'ADMIN_SHORTCUTS' in context:
+        admin_shortcuts = copy.deepcopy(context['ADMIN_SHORTCUTS'])
+    else:
+        admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
     admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
 
     if not admin_shortcuts:
