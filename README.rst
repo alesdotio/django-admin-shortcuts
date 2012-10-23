@@ -53,6 +53,7 @@ How do i use it?
 Where ...
 
     * ``url_name`` is a name that will be resolved using django's reverse url method (see https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#reversing-admin-urls)
+    * optional ``app_name`` is the name of the admin app that will be used for URL reversal. You can safely ignore this if you have only one admin site in your ``urls.py``
     * optional ``url`` is a direct link that will override ``url_name``
     * optional ``url_extra`` is extra stuff to be attached at the end of the url (like GET data for pre-filtering admin views)
     * optional ``title`` is the title of the shortcut
