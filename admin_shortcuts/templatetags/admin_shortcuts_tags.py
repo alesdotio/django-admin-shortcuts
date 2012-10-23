@@ -30,10 +30,11 @@ def admin_shortcuts(context):
                 except KeyError:
                     raise ImproperlyConfigured(_('settings.ADMIN_SHORTCUTS is improperly configured. '
                                                   'Please supply either a "url" or a "url_name" for each shortcut.'))
+                current_app = shortcut.get('app_name')
                 if isinstance(url_name, list):
-                    shortcut['url'] = reverse(url_name[0], args=url_name[1:])
+                    shortcut['url'] = reverse(url_name[0], args=url_name[1:], current_app=current_app)
                 else:
-                    shortcut['url'] = reverse(url_name)
+                    shortcut['url'] = reverse(url_name, current_app=current_app)
 
                 shortcut['url'] += shortcut.get('url_extra', '')
 
