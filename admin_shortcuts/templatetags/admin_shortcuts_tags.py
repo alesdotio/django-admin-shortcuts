@@ -1,4 +1,5 @@
 import copy
+import inspect
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -16,7 +17,7 @@ def admin_shortcuts(context):
     else:
         admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
     admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
-
+    request = context['request']
     if not admin_shortcuts:
         return ''
 
@@ -42,10 +43,10 @@ def admin_shortcuts(context):
                 shortcut['class'] = get_shortcut_class(shortcut.get('url_name', shortcut['url']))
 
             if shortcut.get('count'):
-                shortcut['count'] = eval_func(shortcut['count'])
+                shortcut['count'] = eval_func(shortcut['count'], request)
 
             if shortcut.get('count_new'):
-                shortcut['count_new'] = eval_func(shortcut['count_new'])
+                shortcut['count_new'] = eval_func(shortcut['count_new'], request)
 
     return {
         'admin_shortcuts': admin_shortcuts,
@@ -68,12 +69,18 @@ def admin_shortcuts_js():
     }
 
 
-def eval_func(func_path):
+def eval_func(func_path, request):
     try:
         module_str = '.'.join(func_path.split('.')[:-1])
         func_str = func_path.split('.')[-1:][0]
         module = import_module(module_str)
-        result = getattr(module, func_str)()
+        result = getattr(module, func_str)
+        if callable(result):
+            args, varargs, keywords, defaults = inspect.getargspec(result)
+            if 'request' in args:
+                result = result(request)
+            else:
+                result = result()
         return result
     except:
         return func_path
