@@ -30,7 +30,7 @@ How do i use it?
 
 1) ``pip install django-admin-shortcuts``
 
-2) add ``'admin_shortcuts'`` to your ``INSTALLED_APPS``, just before ``'admin'`` <-- IMPORTANT
+2) add ``'admin_shortcuts'`` to your ``INSTALLED_APPS``, just before ``'django.contrib.admin'`` <-- IMPORTANT
 
 3) add ``ADMIN_SHORTCUTS`` to your settings
 
@@ -39,11 +39,11 @@ How do i use it?
 
     ADMIN_SHORTCUTS = [
         {
-            'title': _('Shop'),
+            'title': 'Shop',
             'shortcuts': [
                 {
                     'url_name': 'admin:shop_order_changelist',
-                    'title': _('Products'),
+                    'title': 'Products',
                     'count_new': 'project.utils.count_new_orders',
                 },
             ]
@@ -141,31 +141,8 @@ What are the settings used in the pretty image above?
 I want to change how stuff looks
 ================================
 
-* overwrite the ``templates/admin_shortcuts/base.css`` template
-* specify desired ``url_name`` to ``class`` mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
-
-    The default ones are:
-::
-
-    [
-        ['cms_page', 'pages'],
-        ['product', 'product'],
-        ['order', 'order'],
-        ['category', 'category'],
-        ['user', 'user'],
-        ['folder', 'folder'],
-        ['gallery', 'gallery'],
-        ['blog', 'blog'],
-        ['event', 'event'],
-        ['mail', 'mail'],
-        ['message', 'mail'],
-        ['contact', 'mail'],
-        ['location', 'location'],
-        ['store', 'location'],
-        ['add', 'add'],
-        ['change', 'change'],
-    ]
-
+* to change the css overwrite the ``templates/admin_shortcuts/base.css`` template
+* to change the icons specify desired ``url_name`` to ``class`` mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
 
 
 Notes

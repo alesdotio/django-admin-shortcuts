@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 import os
+import admin_shortcuts
 
 CLASSIFIERS = [
     "Development Status :: 3 - Alpha",
@@ -17,7 +18,7 @@ setup(
     author="Ales Kocjancic",
     author_email="alesdotio@gmail.com",
     name='django-admin-shortcuts',
-    version='1.2.2',
+    version=admin_shortcuts.__version__,
     description='Add simple and pretty shortcuts to the django admin homepage.',
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
     url='https://github.com/alesdotio/django-admin-shortcuts',
