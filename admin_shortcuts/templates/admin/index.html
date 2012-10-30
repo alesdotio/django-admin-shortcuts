@@ -9,8 +9,8 @@
 	</div>
 {% endblock %}
 
-{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
-<style type="text/css">{% admin_shortcuts_css %}</style>
+{% block extrastyle %}<style type="text/css">{% admin_shortcuts_css %}</style>
+{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/dashboard.css" %}" />
 {% endblock %}
 
 {% block extrahead %}{{ block.super }}{% admin_shortcuts_js %}{% endblock %}
