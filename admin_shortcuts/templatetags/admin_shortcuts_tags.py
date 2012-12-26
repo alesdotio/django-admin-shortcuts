@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from importlib import import_module
+from django.utils.importlib import import_module
 
 register = template.Library()
 
