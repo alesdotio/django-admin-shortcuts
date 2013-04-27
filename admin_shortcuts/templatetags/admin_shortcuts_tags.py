@@ -17,7 +17,7 @@ def admin_shortcuts(context):
     else:
         admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
     admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
-    request = context['request']
+    request = context.get('request', None)
     if not admin_shortcuts:
         return ''
 
