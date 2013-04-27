@@ -2,7 +2,7 @@
 django Admin Shortcuts
 ======================
 
-.. image:: http://alesdotio.github.com/django-admin-shortcuts/images/django-admin-shortcuts.png
+.. image:: https://raw.github.com/alesdotio/django-admin-shortcuts/gh-pages/images/django-admin-shortcuts.png
 
 
 
