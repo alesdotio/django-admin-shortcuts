@@ -25,7 +25,7 @@ Well, good thing django-admin-shortcuts is here, because it only takes five minu
 dreadfully boring admin to the marvelous engineering excellence that is this app.
 
 
-How do i use it?
+How do I use it?
 ================
 
 1) ``pip install django-admin-shortcuts``
