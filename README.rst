@@ -59,9 +59,11 @@ Where ...
     * optional ``title`` is the title of the shortcut
     * optional ``count`` and ``count_new`` are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders).
       The function can optionally take one argument, ``request``, which is the current Django ``HttpRequest`` object.
+    * optional ``count_position`` defines where the count will be shown, valid positions are ``top_right`` or ``below_title`` where ``top_right`` is the default.
     * optional ``open_new_window`` sets whether the link should open in a new window (default is False)
     * optional ``class`` is the CSS class to be added to the anchor element (if you don't specify one, magical ponies will do it for you)
-
+	
+	
 4) profit!!
 
 5) optionally, also add ``ADMIN_SHORTCUTS_SETTINGS`` to your settings
