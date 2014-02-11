@@ -21,7 +21,9 @@ def admin_shortcuts(context):
     if not admin_shortcuts:
         return ''
 
+    permitted_urls = get_permitted_urls(context)
     for group in admin_shortcuts:
+        group['permitted'] = False
         if not group.get('shortcuts'):
             raise ImproperlyConfigured('settings.ADMIN_SHORTCUTS is improperly configured.')
         for shortcut in group.get('shortcuts'):
@@ -36,8 +38,14 @@ def admin_shortcuts(context):
                     shortcut['url'] = reverse(url_name[0], args=url_name[1:], current_app=current_app)
                 else:
                     shortcut['url'] = reverse(url_name, current_app=current_app)
+                shortcut['permitted'] = shortcut['url'] in permitted_urls
 
                 shortcut['url'] += shortcut.get('url_extra', '')
+            else:
+                shortcut['permitted'] = True  # manual urls are permitted
+
+            if shortcut['permitted']:
+                group['permitted'] = True
 
             if not shortcut.get('class'):
                 shortcut['class'] = get_shortcut_class(shortcut.get('url_name', shortcut['url']))
@@ -93,6 +101,16 @@ def admin_static_url():
     """
     return getattr(settings, 'ADMIN_MEDIA_PREFIX', None) or ''.join([settings.STATIC_URL, 'admin/'])
 
+def get_permitted_urls(context):
+    permitted_urls = []
+    for app in context.get('app_list', []):
+        for model in app['models']:
+            for url in ['add_url', 'admin_url']:
+                try:
+                    permitted_urls.append(model[url])
+                except KeyError:
+                    pass
+    return permitted_urls
 
 def get_shortcut_class(url):
     if url == '/':
