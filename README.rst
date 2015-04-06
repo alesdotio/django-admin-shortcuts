@@ -154,8 +154,3 @@ Notes
 * Icons grabbed from Pixeden.com
 
 
-
-.. image:: https://d2weczhvl823v0.cloudfront.net/alesdotio/django-admin-shortcuts/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
-
