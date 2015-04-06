@@ -20,7 +20,7 @@
 
 {% block count %}
 /* count */
-.admin_shortcuts .shortcuts li a .count { position: absolute; right: 3px; top: 2px; color: #96c9e5; font-size: 9px; }
+.admin_shortcuts .shortcuts li a .count { position: absolute; right: 3px; bottom: 2px; color: #96c9e5; font-size: 9px; }
 .admin_shortcuts .shortcuts li a .count_new { position: absolute; right: -7px; top: -7px; color: #fff; font-size: 10px;
 	line-height: 10px; border-radius: 30px; display: block; overflow: hidden; max-width: 40px; min-width: 10px;
 	height: 10px; padding: 6px; border: 2px solid #bd617f; background: #940f3a; text-align: center; font-weight: bold;
