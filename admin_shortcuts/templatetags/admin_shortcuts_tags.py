@@ -19,7 +19,7 @@ def admin_shortcuts(context):
     admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
     request = context.get('request', None)
     if not admin_shortcuts:
-        return ''
+        return {}
 
     for group in admin_shortcuts:
         if not group.get('shortcuts'):
