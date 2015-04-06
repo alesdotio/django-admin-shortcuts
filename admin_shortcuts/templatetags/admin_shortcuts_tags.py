@@ -24,7 +24,12 @@ def admin_shortcuts(context):
     for group in admin_shortcuts:
         if not group.get('shortcuts'):
             raise ImproperlyConfigured('settings.ADMIN_SHORTCUTS is improperly configured.')
+        enabled_shortcuts = []
         for shortcut in group.get('shortcuts'):
+            if shortcut.get('has_perms'):
+                if not eval_func(shortcut['has_perms'], request):
+                    continue
+
             if not shortcut.get('url'):
                 try:
                     url_name = shortcut['url_name']
@@ -47,6 +52,10 @@ def admin_shortcuts(context):
 
             if shortcut.get('count_new'):
                 shortcut['count_new'] = eval_func(shortcut['count_new'], request)
+
+            enabled_shortcuts.append(shortcut)
+
+        group['shortcuts'] = enabled_shortcuts
 
     return {
         'admin_shortcuts': admin_shortcuts,
