@@ -32,10 +32,7 @@ How do I use it?
 
 2) add ``'admin_shortcuts'`` to your ``INSTALLED_APPS``, just before ``'django.contrib.admin'`` <-- IMPORTANT
 
-3) add ``ADMIN_SHORTCUTS`` to your settings
-
-    For example:
-::
+3) add ``ADMIN_SHORTCUTS`` to your settings. For example::
 
     ADMIN_SHORTCUTS = [
         {
