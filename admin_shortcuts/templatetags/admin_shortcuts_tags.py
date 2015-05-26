@@ -4,7 +4,7 @@ from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext, ugettext_lazy as _
 from django.utils.importlib import import_module
 
 register = template.Library()
@@ -24,6 +24,10 @@ def admin_shortcuts(context):
     for group in admin_shortcuts:
         if not group.get('shortcuts'):
             raise ImproperlyConfigured('settings.ADMIN_SHORTCUTS is improperly configured.')
+
+        if group.get('title'):
+            group['title'] = ugettext(group['title'])
+
         enabled_shortcuts = []
         for shortcut in group.get('shortcuts'):
             if shortcut.get('has_perms'):
@@ -52,6 +56,9 @@ def admin_shortcuts(context):
 
             if shortcut.get('count_new'):
                 shortcut['count_new'] = eval_func(shortcut['count_new'], request)
+
+            if shortcut.get('title'):
+                shortcut['title'] = ugettext(shortcut['title'])
 
             enabled_shortcuts.append(shortcut)
 
