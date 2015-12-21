@@ -1,11 +1,17 @@
 import copy
 import inspect
+
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext, ugettext_lazy as _
-from django.utils.importlib import import_module
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext
+
+try:
+    from django.utils.module_loading import import_module
+except ImportError:
+    from django.utils.importlib import import_module
 
 register = template.Library()
 
@@ -39,7 +45,7 @@ def admin_shortcuts(context):
                     url_name = shortcut['url_name']
                 except KeyError:
                     raise ImproperlyConfigured(_('settings.ADMIN_SHORTCUTS is improperly configured. '
-                                                  'Please supply either a "url" or a "url_name" for each shortcut.'))
+                                                 'Please supply either a "url" or a "url_name" for each shortcut.'))
                 current_app = shortcut.get('app_name')
                 if isinstance(url_name, list):
                     shortcut['url'] = reverse(url_name[0], args=url_name[1:], current_app=current_app)
@@ -116,7 +122,7 @@ def get_shortcut_class(url):
     for key, value in CLASS_MAPPINGS:
         if key is not None and key in url:
             return value
-    return 'config' # default icon
+    return 'config'  # default icon
 
 
 CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
