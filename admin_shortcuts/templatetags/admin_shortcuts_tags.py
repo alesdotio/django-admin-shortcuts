@@ -11,7 +11,7 @@ from django.utils.translation import ugettext
 try:
     from django.utils.module_loading import import_module
 except ImportError:
-    from django.utils.importlib import import_module
+    from importlib import import_module
 
 register = template.Library()
 
