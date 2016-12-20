@@ -30,6 +30,7 @@ setup(
     classifiers=CLASSIFIERS,
     install_requires=[
         'Django>=1.2',
+        'importlib>=1.0.3',
     ],
 )
 
