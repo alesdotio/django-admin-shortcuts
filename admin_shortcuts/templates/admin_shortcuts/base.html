@@ -3,12 +3,16 @@
 {% if admin_shortcuts %}
 	<ul class="shortcuts">
 	{% for group in admin_shortcuts %}
-		{% if group.title %}<h2>{{ group.title }}</h2>{% endif %}
-		<ul>
-		{% for shortcut in group.shortcuts %}
-			<li>{% include 'admin_shortcuts/shortcut.html' %}</li>
-		{% endfor %}
-		</ul>
+		{% if group.permitted %}
+			{% if group.title %}<h2>{{ group.title }}</h2>{% endif %}
+			<ul>
+			{% for shortcut in group.shortcuts %}
+				{% if shortcut.permitted %}
+					<li>{% include 'admin_shortcuts/shortcut.html' %}</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+		{% endif %}
 	{% endfor %}
 	</ul>
 {% endif %}
