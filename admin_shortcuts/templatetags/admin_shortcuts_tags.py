@@ -120,7 +120,7 @@ def get_shortcut_class(url):
     if url == '/':
         return 'home'
     for key, value in CLASS_MAPPINGS:
-        if key is not None and key in url:
+        if key is not None and key in ''.join(url):
             return value
     return 'config'  # default icon
 
