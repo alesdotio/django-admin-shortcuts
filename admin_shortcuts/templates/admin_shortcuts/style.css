@@ -41,5 +41,5 @@
 
 {% block icons %}
 /* icons */
-{% for class in classes %}.admin_shortcuts .shortcuts li a.{{ class }} { background-image: url('{% static "admin_shortcuts" %}/{{ class }}.png'); }{% endfor %}
+{% for class in classes %}.admin_shortcuts .shortcuts li a.{{ class }} { background-image: url('{% static "admin_shortcuts/" %}{{ class }}.png'); }{% endfor %}
 {% endblock %}
