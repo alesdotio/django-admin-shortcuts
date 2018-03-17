@@ -39,13 +39,17 @@ How do I use it?
 
     ADMIN_SHORTCUTS = [
         {
-            'title': 'Shop',
+            'title': 'Authentication',
             'shortcuts': [
                 {
-                    'url_name': 'admin:shop_order_changelist',
-                    'title': 'Products',
-                    'count_new': 'project.utils.count_new_orders',
-                    'has_perms': 'project.utils.has_perms_to_orders',
+                    'title': 'Groups',
+                    'url_name': 'admin:auth_group_changelist',
+                    'count': 'example.utils.count_groups',
+                },
+                {
+                    'title': 'Add user',
+                    'url_name': 'admin:auth_user_add',
+                    'has_perms': 'example.utils.has_perms_to_users',
                 },
             ]
         },
@@ -63,7 +67,7 @@ Where ...
     * optional ``has_perms`` is a path to a function inside your project that returns information about shortcut visibility on the django admin homepage.
       Like above, this function can optionally take one argument ``request`` as well.
     * optional ``open_new_window`` sets whether the link should open in a new window (default is False)
-    * optional ``class`` is the CSS class to be added to the anchor element (if you don't specify one, magical ponies will do it for you)
+    * optional ``icon`` is the CSS icon to be added to the anchor element (if you don't specify one, magical ponies will do it for you)
 
 4) profit!!
 
@@ -96,40 +100,50 @@ What are the settings used in the pretty image above?
                     'open_new_window': True,
                 },
                 {
-                    'url_name': 'admin:index',
-                    'title': 'Pages',
+                    'url_name': 'admin:logout',
                 },
                 {
-                    'url_name': 'admin:index',
-                    'title': 'Files',
-                },
-                {
-                    'url_name': 'admin:index',
                     'title': 'Users',
-                    'count_new': 'example.counts.count_users',
+                    'url_name': 'admin:auth_user_changelist',
+                    'count': 'example.utils.count_users',
                 },
                 {
-                    'url_name': 'admin:index',
-                    'title': 'Contact forms',
+                    'title': 'Groups',
+                    'url_name': 'admin:auth_group_changelist',
+                    'count': 'example.utils.count_groups',
+                },
+                {
+                    'title': 'Add user',
+                    'url_name': 'admin:auth_user_add',
+                    'has_perms': 'example.utils.has_perms_to_users',
                 },
             ]
         },
         {
-            'title': 'Shop',
+            'title': 'CMS',
             'shortcuts': [
                 {
+                    'title': 'Pages',
                     'url_name': 'admin:index',
+                },
+                {
+                    'title': 'Files',
+                    'url_name': 'admin:index',
+                },
+                {
+                    'title': 'Contact forms',
+                    'icon': 'columns',
+                    'url_name': 'admin:index',
+                    'count_new': '3',
+                },
+                {
                     'title': 'Products',
-                    'count': '2',
+                    'url_name': 'admin:index',
                 },
                 {
-                    'url_name': 'admin:index',
-                    'title': 'Categories',
-                },
-                {
-                    'url_name': 'admin:index',
                     'title': 'Orders',
-                    'count_new': 'test',
+                    'url_name': 'admin:index',
+                    'count_new': '12',
                 },
             ]
         },
@@ -140,11 +154,12 @@ What are the settings used in the pretty image above?
     }
 
 
+
 I want to change how stuff looks
 ================================
 
 * to change the css overwrite the ``templates/admin_shortcuts/base.css`` template
-* to change the icons specify desired ``url_name`` to ``class`` mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
+* to change the icons specify the mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
 
 
 Notes

@@ -130,40 +130,50 @@ ADMIN_SHORTCUTS = [
                 'open_new_window': True,
             },
             {
-                'url_name': 'admin:index',
-                'title': 'Pages',
+                'url_name': 'admin:logout',
             },
             {
-                'url_name': 'admin:index',
-                'title': 'Files',
-            },
-            {
-                'url_name': 'admin:index',
                 'title': 'Users',
-                'count_new': 'example.counts.count_users',
+                'url_name': 'admin:auth_user_changelist',
+                'count': 'example.utils.count_users',
             },
             {
-                'url_name': 'admin:index',
-                'title': 'Contact forms',
+                'title': 'Groups',
+                'url_name': 'admin:auth_group_changelist',
+                'count': 'example.utils.count_groups',
+            },
+            {
+                'title': 'Add user',
+                'url_name': 'admin:auth_user_add',
+                'has_perms': 'example.utils.has_perms_to_users',
             },
         ]
     },
     {
-        'title': 'Shop',
+        'title': 'CMS',
         'shortcuts': [
             {
+                'title': 'Pages',
                 'url_name': 'admin:index',
+            },
+            {
+                'title': 'Files',
+                'url_name': 'admin:index',
+            },
+            {
+                'title': 'Contact forms',
+                'icon': 'columns',
+                'url_name': 'admin:index',
+                'count_new': '3',
+            },
+            {
                 'title': 'Products',
-                'count': '2',
+                'url_name': 'admin:index',
             },
             {
-                'url_name': 'admin:index',
-                'title': 'Categories',
-            },
-            {
-                'url_name': 'admin:index',
                 'title': 'Orders',
-                'count_new': 'test',
+                'url_name': 'admin:index',
+                'count_new': '12',
             },
         ]
     },

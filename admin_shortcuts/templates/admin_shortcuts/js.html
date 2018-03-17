@@ -7,7 +7,7 @@
 		jq('#content').hide();
 		jq('#toggle_app_list').bind('click', function(e){
 			e.preventDefault();
-			jq('#content').slideToggle();
+			jq('#content').slideToggle(300);
 			jq(this).toggleClass('open');
 		});
 	});

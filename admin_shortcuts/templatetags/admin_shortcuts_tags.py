@@ -57,8 +57,8 @@ def admin_shortcuts(context):
 
                 shortcut['url'] += shortcut.get('url_extra', '')
 
-            if not shortcut.get('class'):
-                shortcut['class'] = get_shortcut_class(shortcut.get('url_name', shortcut['url']))
+            if not shortcut.get('icon'):
+                shortcut['icon'] = get_shortcut_class(shortcut.get('url_name', shortcut.get('url', ''))+shortcut.get('title', ''))
 
             if shortcut.get('count'):
                 shortcut['count'] = eval_func(shortcut['count'], request)
@@ -81,9 +81,7 @@ def admin_shortcuts(context):
 
 @register.inclusion_tag('admin_shortcuts/style.css')
 def admin_shortcuts_css():
-    return {
-        'classes': [value for key, value in CLASS_MAPPINGS],
-    }
+    return {}
 
 
 @register.inclusion_tag('admin_shortcuts/js.html')
@@ -119,88 +117,46 @@ def admin_static_url():
     return getattr(settings, 'ADMIN_MEDIA_PREFIX', None) or ''.join([settings.STATIC_URL, 'admin/'])
 
 
-def get_shortcut_class(url):
-    if url == '/':
-        return 'home'
-    for key, value in CLASS_MAPPINGS:
-        if key is not None and key in url:
-            return value
-    return 'config'  # default icon
+DEFAULT_ICON = getattr(settings, 'ADMIN_SHORTCUTS_DEFAULT_ICON', 'cog')
+
+
+def get_shortcut_class(text=''):
+    text = text.lower()
+    icon_weights = {}
+    max_weight = 0
+    for keywords, icon in CLASS_MAPPINGS:
+        weight = sum([1 if k in text else 0 for k in keywords])
+        icon_weights[icon] = weight
+        if weight > max_weight:
+            max_weight = weight
+    best_icon_matches = []
+    for icon, weight in icon_weights.items():
+        if weight == max_weight:
+            best_icon_matches.append(icon)
+    if len(best_icon_matches):
+        return best_icon_matches[0]
+    return DEFAULT_ICON
 
 
 CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
-    ['cms_page', 'file2'],
-    ['product', 'basket'],
-    ['order', 'cash'],
-    ['category', 'archive'],
-    ['user', 'user'],
-    ['account', 'user'],
-    ['address', 'letter'],
-    ['folder', 'folder'],
-    ['gallery', 'picture'],
-    ['blog', 'blog'],
-    ['event', 'date'],
-    ['mail', 'openmail'],
-    ['message', 'openmail'],
-    ['contact', 'openmail'],
-    ['location', 'pin'],
-    ['store', 'pin'],
-    ['delivery', 'delivery2'],
-    ['shipping', 'delivery2'],
-    ['add', 'plus'],
-    ['change', 'pencil'],
-    ['home', 'home'],
-
-    # extra classes
-    [None, 'archive'],
-    [None, 'back'],
-    [None, 'camera'],
-    [None, 'card'],
-    [None, 'cd'],
-    [None, 'certificate'],
-    [None, 'clock'],
-    [None, 'cloud1'],
-    [None, 'cloud2'],
-    [None, 'cloud3'],
-    [None, 'cloud4'],
-    [None, 'config'],
-    [None, 'config2'],
-    [None, 'date'],
-    [None, 'delivery1'],
-    [None, 'diskette'],
-    [None, 'file1'],
-    [None, 'file3'],
-    [None, 'file4'],
-    [None, 'film'],
-    [None, 'flag'],
-    [None, 'gamepad'],
-    [None, 'garbage'],
-    [None, 'gift'],
-    [None, 'help'],
-    [None, 'key'],
-    [None, 'less'],
-    [None, 'letters'],
-    [None, 'light'],
-    [None, 'lock'],
-    [None, 'love'],
-    [None, 'mail'],
-    [None, 'monitor'],
-    [None, 'music'],
-    [None, 'note'],
-    [None, 'notepad'],
-    [None, 'ok'],
-    [None, 'package'],
-    [None, 'phone'],
-    [None, 'pin'],
-    [None, 'print'],
-    [None, 'sound'],
-    [None, 'suitcase'],
-    [None, 'tag'],
-    [None, 'ticket'],
-    [None, 'tool'],
-    [None, 'unlock'],
-    [None, 'wallet'],
-    [None, 'warning'],
-    [None, 'way'],
-    [None, 'zoom'],
+    [['home'], 'home'],
+    [['add'], 'plus'],
+    [['logout', 'login'], 'lock'],
+    [['file'], 'file'],
+    [['page', 'text'], 'file-alt'],
+    [['image', 'picture', 'photo', 'gallery'], 'image'],
+    [['product', 'store'], 'shopping-cart'],
+    [['order', 'pay', 'sale', 'income', 'revenue'], 'money-bill-alt'],
+    [['category'], 'archive'],
+    [['user', 'account'], 'user'],
+    [['group', 'team'], 'users'],
+    [['address', 'contacts'], 'address-book'],
+    [['message', 'contact', 'mail'], 'envelope'],
+    [['folder', 'directory', 'path'], 'folder'],
+    [['blog', 'book'], 'book'],
+    [['event', 'calendar'], 'calendar'],
+    [['delivery', 'shipping'], 'truck'],
+    [['add'], 'plus'],
+    [['change', 'edit'], 'edit'],
+    [['home'], 'home'],
 ])
