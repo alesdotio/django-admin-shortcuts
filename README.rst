@@ -96,40 +96,40 @@ What are the settings used in the pretty image above?
                     'open_new_window': True,
                 },
                 {
-                    'url_name': 'admin:cms_page_changelist',
-                    'title': _('Pages'),
+                    'url_name': 'admin:index',
+                    'title': 'Pages',
                 },
                 {
-                    'url_name': 'admin:filer_folder_changelist',
-                    'title': _('Files'),
+                    'url_name': 'admin:index',
+                    'title': 'Files',
                 },
                 {
-                    'url_name': 'admin:auth_user_changelist',
-                    'title': _('Users'),
+                    'url_name': 'admin:index',
+                    'title': 'Users',
+                    'count_new': 'example.counts.count_users',
                 },
                 {
-                    'url_name': 'admin:contactform_contactformsubmission_changelist',
-                    'title': _('Contact forms'),
-                    'count_new': 'project.utils.count_new_contactforms',
+                    'url_name': 'admin:index',
+                    'title': 'Contact forms',
                 },
             ]
         },
         {
-            'title': _('Shop'),
+            'title': 'Shop',
             'shortcuts': [
                 {
-                    'url_name': 'admin:shop_product_changelist',
-                    'title': _('Products'),
-                    'count': 'project.utils.count_products',
+                    'url_name': 'admin:index',
+                    'title': 'Products',
+                    'count': '2',
                 },
                 {
-                    'url_name': 'admin:shop_category_changelist',
-                    'title': _('Categories'),
+                    'url_name': 'admin:index',
+                    'title': 'Categories',
                 },
                 {
-                    'url_name': 'admin:shop_order_changelist',
-                    'title': _('Orders'),
-                    'count_new': 'project.utils.count_new_orders',
+                    'url_name': 'admin:index',
+                    'title': 'Orders',
+                    'count_new': 'test',
                 },
             ]
         },
@@ -138,7 +138,6 @@ What are the settings used in the pretty image above?
         'hide_app_list': True,
         'open_new_window': False,
     }
-
 
 
 I want to change how stuff looks
