@@ -128,7 +128,7 @@ def get_shortcut_class(text=''):
     text = text.lower()
     icon_weights = {}
     max_weight = 0
-    for keywords, icon in CLASS_MAPPINGS:
+    for icon, keywords in CLASS_MAPPINGS.items():
         weight = sum([1 if k in text else 0 for k in keywords])
         icon_weights[icon] = weight
         if weight > max_weight:
@@ -142,25 +142,23 @@ def get_shortcut_class(text=''):
     return DEFAULT_ICON
 
 
-CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
-    [['home'], 'home'],
-    [['add'], 'plus'],
-    [['logout', 'login'], 'lock'],
-    [['file'], 'file'],
-    [['page', 'text'], 'file-alt'],
-    [['image', 'picture', 'photo', 'gallery'], 'image'],
-    [['product', 'store'], 'shopping-cart'],
-    [['order', 'pay', 'sale', 'income', 'revenue'], 'money-bill-alt'],
-    [['category'], 'archive'],
-    [['user', 'account'], 'user'],
-    [['group', 'team'], 'users'],
-    [['address', 'contacts'], 'address-book'],
-    [['message', 'contact', 'mail'], 'envelope'],
-    [['folder', 'directory', 'path'], 'folder'],
-    [['blog', 'book'], 'book'],
-    [['event', 'calendar'], 'calendar'],
-    [['delivery', 'shipping'], 'truck'],
-    [['add'], 'plus'],
-    [['change', 'edit'], 'edit'],
-    [['home'], 'home'],
-])
+CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', {
+    'home': ['home'],
+    'plus': ['add'],
+    'lock': ['logout', 'login'],
+    'file': ['file'],
+    'file-alt': ['page', 'text'],
+    'image': ['image', 'picture', 'photo', 'gallery'],
+    'shopping-cart': ['product', 'store'],
+    'money-bill-alt': ['order', 'pay', 'sale', 'income', 'revenue'],
+    'archive': ['category'],
+    'user': ['user', 'account'],
+    'users': ['group', 'team'],
+    'address-book': ['address', 'contacts'],
+    'envelope': ['message', 'contact', 'mail'],
+    'folder': ['folder', 'directory', 'path'],
+    'book': ['blog', 'book'],
+    'calendar': ['event', 'calendar'],
+    'truck': ['delivery', 'shipping'],
+    'edit': ['change', 'edit'],
+})
