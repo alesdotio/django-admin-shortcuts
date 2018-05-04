@@ -4,6 +4,8 @@ import inspect
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.utils.encoding import force_text
+
 try:
     from django.core.urlresolvers import reverse
 except ImportError:
@@ -58,7 +60,9 @@ def admin_shortcuts(context):
                 shortcut['url'] += shortcut.get('url_extra', '')
 
             if not shortcut.get('icon'):
-                shortcut['icon'] = get_shortcut_class(shortcut.get('url_name', shortcut.get('url', ''))+shortcut.get('title', ''))
+                class_text = force_text(shortcut.get('url_name', shortcut.get('url', '')))
+                class_text += force_text(shortcut.get('title', ''))
+                shortcut['icon'] = get_shortcut_class(class_text)
 
             if shortcut.get('count'):
                 shortcut['count'] = eval_func(shortcut['count'], request)

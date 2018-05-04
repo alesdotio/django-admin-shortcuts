@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.utils.translation import ugettext_lazy as _
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -120,6 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
 # Admin Shortcuts
 
 ADMIN_SHORTCUTS = [
@@ -171,7 +174,7 @@ ADMIN_SHORTCUTS = [
                 'url_name': 'admin:index',
             },
             {
-                'title': 'Orders',
+                'title': _('Orders'),
                 'url_name': 'admin:index',
                 'count_new': '12',
             },
