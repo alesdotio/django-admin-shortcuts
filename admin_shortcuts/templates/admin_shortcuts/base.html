@@ -1,16 +1,22 @@
 {% load i18n %}
 
-{% if admin_shortcuts %}
-	<ul class="shortcuts">
-	{% for group in admin_shortcuts %}
-		{% if group.title %}<h2>{{ group.title }}</h2>{% endif %}
-		<ul>
-		{% for shortcut in group.shortcuts %}
-			<li>{% include 'admin_shortcuts/shortcut.html' %}</li>
+{% if enable_admin_shortcuts %}
+
+	{% if admin_shortcuts %}
+		<ul class="shortcuts">
+		{% for group in admin_shortcuts %}
+			{% if group.title %}<h2>{{ group.title }}</h2>{% endif %}
+			<ul>
+			{% for shortcut in group.shortcuts %}
+				<li>{% include 'admin_shortcuts/shortcut.html' %}</li>
+			{% endfor %}
+			</ul>
 		{% endfor %}
 		</ul>
-	{% endfor %}
-	</ul>
-{% endif %}
+	{% endif %}
 
-{% if settings.hide_app_list %}<a href="#" id="toggle_app_list"><span class="open">&uarr;</span><span class="closed">&darr;</span>&nbsp;&nbsp;{% trans 'Advanced' %}&nbsp;&nbsp;</a>{% endif %}
+	{% if enable_hide_app_list %}
+		<a href="#" id="toggle_app_list"><span class="open">&uarr;</span><span class="closed">&darr;</span>&nbsp;&nbsp;{% trans 'Advanced' %}&nbsp;&nbsp;</a>
+	{% endif %}
+
+{% endif %}

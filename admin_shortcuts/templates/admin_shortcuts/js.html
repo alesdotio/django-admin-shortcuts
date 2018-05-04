@@ -1,5 +1,6 @@
 {% load admin_shortcuts_tags %}
-{% if settings.hide_app_list %}
+{% if enable_hide_app_list %}
+<script type="text/javascript" src="{% admin_static_url %}js/jquery.js"></script>
 <script type="text/javascript" src="{% admin_static_url %}js/vendor/jquery/jquery.js"></script>
 <script type="text/javascript">
 	var jq = (window.django && window.django.jQuery) ? django.jQuery : jQuery;

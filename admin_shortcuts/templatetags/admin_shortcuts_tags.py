@@ -26,8 +26,8 @@ def admin_shortcuts(context):
     if 'ADMIN_SHORTCUTS' in context:
         admin_shortcuts = copy.deepcopy(context['ADMIN_SHORTCUTS'])
     else:
-        admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
-    admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
+        admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', {}))
+    admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', {}))
     request = context.get('request', None)
     if not admin_shortcuts:
         return {}
@@ -77,9 +77,14 @@ def admin_shortcuts(context):
 
         group['shortcuts'] = enabled_shortcuts
 
+    is_front_page = False
+    if request:
+        is_front_page = reverse('admin:index') == request.path
+
     return {
+        'enable_admin_shortcuts': is_front_page or admin_shortcuts_settings.get('show_on_all_pages'),
+        'enable_hide_app_list': is_front_page and admin_shortcuts_settings.get('hide_app_list'),
         'admin_shortcuts': admin_shortcuts,
-        'settings': admin_shortcuts_settings,
     }
 
 
@@ -88,11 +93,15 @@ def admin_shortcuts_css():
     return {}
 
 
-@register.inclusion_tag('admin_shortcuts/js.html')
-def admin_shortcuts_js():
-    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None)
+@register.inclusion_tag('admin_shortcuts/js.html', takes_context=True)
+def admin_shortcuts_js(context):
+    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', {})
+    request = context.get('request', None)
+    is_front_page = False
+    if request:
+        is_front_page = reverse('admin:index') == request.path
     return {
-        'settings': admin_shortcuts_settings,
+        'enable_hide_app_list': is_front_page and admin_shortcuts_settings.get('hide_app_list'),
     }
 
 

@@ -182,6 +182,7 @@ ADMIN_SHORTCUTS = [
     },
 ]
 ADMIN_SHORTCUTS_SETTINGS = {
+    'show_on_all_pages': True,
     'hide_app_list': True,
     'open_new_window': False,
 }

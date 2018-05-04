@@ -83,6 +83,7 @@ Where ...
 
 Where ...
 
+* optional ``show_on_all_pages`` shows the shortcuts on all admin pages
 * optional ``hide_app_list`` collapses the app list
 * optional ``open_new_window`` makes all shortcuts open in a new window
 
@@ -149,6 +150,7 @@ What are the settings used in the pretty image above?
         },
     ]
     ADMIN_SHORTCUTS_SETTINGS = {
+        'show_on_all_pages': True,
         'hide_app_list': True,
         'open_new_window': False,
     }
