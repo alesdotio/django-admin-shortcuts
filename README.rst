@@ -76,6 +76,7 @@ Where ...
 ::
 
     ADMIN_SHORTCUTS_SETTINGS = {
+        'show_on_all_pages': False,
         'hide_app_list': False,
         'open_new_window': False,
     }
