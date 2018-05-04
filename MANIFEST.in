@@ -1,4 +1,3 @@
 include LICENSE
 include README.rst
 recursive-include admin_shortcuts/templates *
-recursive-include admin_shortcuts/static *

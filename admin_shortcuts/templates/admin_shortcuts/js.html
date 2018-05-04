@@ -1,13 +1,15 @@
 {% load admin_shortcuts_tags %}
-{% if settings.hide_app_list %}
+{% if enable_hide_app_list %}
 <script type="text/javascript" src="{% admin_static_url %}js/jquery.js"></script>
+<script type="text/javascript" src="{% admin_static_url %}js/vendor/jquery/jquery.js"></script>
 <script type="text/javascript">
-	jQuery(function(){
-		$('#content').hide();
-		$('#toggle_app_list').bind('click', function(e){
+	var jq = (window.django && window.django.jQuery) ? django.jQuery : jQuery;
+	jq(function(){
+		jq('#content').hide();
+		jq('#toggle_app_list').bind('click', function(e){
 			e.preventDefault();
-			$('#content').slideToggle();
-			$(this).toggleClass('open');
+			jq('#content').slideToggle(300);
+			jq(this).toggleClass('open');
 		});
 	});
 </script>

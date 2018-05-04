@@ -4,7 +4,12 @@ import inspect
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import reverse
+from django.utils.encoding import force_text
+
+try:
+    from django.core.urlresolvers import reverse
+except ImportError:
+    from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext
 
@@ -21,8 +26,8 @@ def admin_shortcuts(context):
     if 'ADMIN_SHORTCUTS' in context:
         admin_shortcuts = copy.deepcopy(context['ADMIN_SHORTCUTS'])
     else:
-        admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', None))
-    admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None))
+        admin_shortcuts = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS', {}))
+    admin_shortcuts_settings = copy.deepcopy(getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', {}))
     request = context.get('request', None)
     if not admin_shortcuts:
         return {}
@@ -54,8 +59,10 @@ def admin_shortcuts(context):
 
                 shortcut['url'] += shortcut.get('url_extra', '')
 
-            if not shortcut.get('class'):
-                shortcut['class'] = get_shortcut_class(shortcut.get('url_name', shortcut['url']))
+            if not shortcut.get('icon'):
+                class_text = force_text(shortcut.get('url_name', shortcut.get('url', '')))
+                class_text += force_text(shortcut.get('title', ''))
+                shortcut['icon'] = get_shortcut_class(class_text)
 
             if shortcut.get('count'):
                 shortcut['count'] = eval_func(shortcut['count'], request)
@@ -70,24 +77,31 @@ def admin_shortcuts(context):
 
         group['shortcuts'] = enabled_shortcuts
 
+    is_front_page = False
+    if request:
+        is_front_page = reverse('admin:index') == request.path
+
     return {
+        'enable_admin_shortcuts': is_front_page or admin_shortcuts_settings.get('show_on_all_pages'),
+        'enable_hide_app_list': is_front_page and admin_shortcuts_settings.get('hide_app_list'),
         'admin_shortcuts': admin_shortcuts,
-        'settings': admin_shortcuts_settings,
     }
 
 
 @register.inclusion_tag('admin_shortcuts/style.css')
 def admin_shortcuts_css():
-    return {
-        'classes': [value for key, value in CLASS_MAPPINGS],
-    }
+    return {}
 
 
-@register.inclusion_tag('admin_shortcuts/js.html')
-def admin_shortcuts_js():
-    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', None)
+@register.inclusion_tag('admin_shortcuts/js.html', takes_context=True)
+def admin_shortcuts_js(context):
+    admin_shortcuts_settings = getattr(settings, 'ADMIN_SHORTCUTS_SETTINGS', {})
+    request = context.get('request', None)
+    is_front_page = False
+    if request:
+        is_front_page = reverse('admin:index') == request.path
     return {
-        'settings': admin_shortcuts_settings,
+        'enable_hide_app_list': is_front_page and admin_shortcuts_settings.get('hide_app_list'),
     }
 
 
@@ -116,88 +130,44 @@ def admin_static_url():
     return getattr(settings, 'ADMIN_MEDIA_PREFIX', None) or ''.join([settings.STATIC_URL, 'admin/'])
 
 
-def get_shortcut_class(url):
-    if url == '/':
-        return 'home'
-    for key, value in CLASS_MAPPINGS:
-        if key is not None and key in url:
-            return value
-    return 'config'  # default icon
+DEFAULT_ICON = getattr(settings, 'ADMIN_SHORTCUTS_DEFAULT_ICON', 'cog')
 
 
-CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', [
-    ['cms_page', 'file2'],
-    ['product', 'basket'],
-    ['order', 'cash'],
-    ['category', 'archive'],
-    ['user', 'user'],
-    ['account', 'user'],
-    ['address', 'letter'],
-    ['folder', 'folder'],
-    ['gallery', 'picture'],
-    ['blog', 'blog'],
-    ['event', 'date'],
-    ['mail', 'openmail'],
-    ['message', 'openmail'],
-    ['contact', 'openmail'],
-    ['location', 'pin'],
-    ['store', 'pin'],
-    ['delivery', 'delivery2'],
-    ['shipping', 'delivery2'],
-    ['add', 'plus'],
-    ['change', 'pencil'],
-    ['home', 'home'],
+def get_shortcut_class(text=''):
+    text = text.lower()
+    icon_weights = {}
+    max_weight = 0
+    for icon, keywords in CLASS_MAPPINGS.items():
+        weight = sum([1 if k in text else 0 for k in keywords])
+        icon_weights[icon] = weight
+        if weight > max_weight:
+            max_weight = weight
+    best_icon_matches = []
+    for icon, weight in icon_weights.items():
+        if weight == max_weight:
+            best_icon_matches.append(icon)
+    if len(best_icon_matches):
+        return best_icon_matches[0]
+    return DEFAULT_ICON
 
-    # extra classes
-    [None, 'archive'],
-    [None, 'back'],
-    [None, 'camera'],
-    [None, 'card'],
-    [None, 'cd'],
-    [None, 'certificate'],
-    [None, 'clock'],
-    [None, 'cloud1'],
-    [None, 'cloud2'],
-    [None, 'cloud3'],
-    [None, 'cloud4'],
-    [None, 'config'],
-    [None, 'config2'],
-    [None, 'date'],
-    [None, 'delivery1'],
-    [None, 'diskette'],
-    [None, 'file1'],
-    [None, 'file3'],
-    [None, 'file4'],
-    [None, 'film'],
-    [None, 'flag'],
-    [None, 'gamepad'],
-    [None, 'garbage'],
-    [None, 'gift'],
-    [None, 'help'],
-    [None, 'key'],
-    [None, 'less'],
-    [None, 'letters'],
-    [None, 'light'],
-    [None, 'lock'],
-    [None, 'love'],
-    [None, 'mail'],
-    [None, 'monitor'],
-    [None, 'music'],
-    [None, 'note'],
-    [None, 'notepad'],
-    [None, 'ok'],
-    [None, 'package'],
-    [None, 'phone'],
-    [None, 'pin'],
-    [None, 'print'],
-    [None, 'sound'],
-    [None, 'suitcase'],
-    [None, 'tag'],
-    [None, 'ticket'],
-    [None, 'tool'],
-    [None, 'unlock'],
-    [None, 'wallet'],
-    [None, 'warning'],
-    [None, 'way'],
-    [None, 'zoom'],
-])
+
+CLASS_MAPPINGS = getattr(settings, 'ADMIN_SHORTCUTS_CLASS_MAPPINGS', {
+    'home': ['home'],
+    'plus': ['add'],
+    'lock': ['logout', 'login'],
+    'file': ['file'],
+    'file-alt': ['page', 'text'],
+    'image': ['image', 'picture', 'photo', 'gallery'],
+    'shopping-cart': ['product', 'store'],
+    'money-bill-alt': ['order', 'pay', 'sale', 'income', 'revenue'],
+    'archive': ['category'],
+    'user': ['user', 'account'],
+    'users': ['group', 'team'],
+    'address-book': ['address', 'contacts'],
+    'envelope': ['message', 'contact', 'mail'],
+    'folder': ['folder', 'directory', 'path'],
+    'book': ['blog', 'book'],
+    'calendar': ['event', 'calendar'],
+    'truck': ['delivery', 'shipping'],
+    'edit': ['change', 'edit'],
+})
