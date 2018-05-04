@@ -11,7 +11,7 @@ build:
 upload:
 	git stash
 	python setup.py sdist
-	twine upload dist/admin_shortcuts-`cat ${PROJECT}/__init__.py | awk -F '("|")' '{ print($$2)}'`.tar.gz
+	twine upload dist/django-admin-shortcuts-`cat ${PROJECT}/__init__.py | awk -F '("|")' '{ print($$2)}'`.tar.gz
 	- git stash pop
 
 git-release:
