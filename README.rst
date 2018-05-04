@@ -1,5 +1,5 @@
 ======================
-django Admin Shortcuts
+Django Admin Shortcuts
 ======================
 
 .. image:: https://raw.github.com/alesdotio/django-admin-shortcuts/gh-pages/images/django-admin-shortcuts.png
@@ -9,7 +9,7 @@ django Admin Shortcuts
 What is this?
 =============
 
-It's a simple dashboard app that adds shortcuts to your django admin homepage. The keyword here is SIMPLE!
+It's a simple dashboard app that adds shortcuts to your Django admin homepage. The keyword here is SIMPLE!
 
 
 Why does it exist?
@@ -30,7 +30,7 @@ How do I use it?
 
 1) ``pip install django-admin-shortcuts``
 
-2) add ``'admin_shortcuts'`` to your ``INSTALLED_APPS``, just before ``'django.contrib.admin'`` <-- IMPORTANT
+2) add ``'admin_shortcuts'`` to your ``INSTALLED_APPS``, just before ``'django.contrib.admin'`` **<-- IMPORTANT**
 
 3) add ``ADMIN_SHORTCUTS`` to your settings
 
@@ -57,17 +57,17 @@ How do I use it?
 
 Where ...
 
-    * ``url_name`` is a name that will be resolved using django's reverse url method (see https://docs.djangoproject.com/en/1.4/ref/contrib/admin/#reversing-admin-urls)
-    * optional ``app_name`` is the name of the admin app that will be used for URL reversal. You can safely ignore this if you have only one admin site in your ``urls.py``
-    * optional ``url`` is a direct link that will override ``url_name``
-    * optional ``url_extra`` is extra stuff to be attached at the end of the url (like GET data for pre-filtering admin views)
-    * optional ``title`` is the title of the shortcut
-    * optional ``count`` and ``count_new`` are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders).
-      The function can optionally take one argument, ``request``, which is the current Django ``HttpRequest`` object.
-    * optional ``has_perms`` is a path to a function inside your project that returns information about shortcut visibility on the django admin homepage.
-      Like above, this function can optionally take one argument ``request`` as well.
-    * optional ``open_new_window`` sets whether the link should open in a new window (default is False)
-    * optional ``icon`` is the CSS icon to be added to the anchor element (if you don't specify one, magical ponies will do it for you)
+* required ``url_name`` is a name that will be resolved using Django's reverse url method (see Django docs https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#admin-reverse-urls )
+* optional ``app_name`` is the name of the admin app that will be used for URL reversal. You can safely ignore this if you have only one admin site in your ``urls.py``
+* optional ``url`` is a direct link that will override ``url_name``
+* optional ``url_extra`` is extra stuff to be attached at the end of the url (like GET data for pre-filtering admin views)
+* optional ``title`` is the title of the shortcut
+* optional ``count`` and ``count_new`` are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders).
+  The function can optionally take one argument, ``request``, which is the current Django ``HttpRequest`` object.
+* optional ``has_perms`` is a path to a function inside your project that returns information about shortcut visibility on the django admin homepage.
+  Like above, this function can optionally take one argument ``request`` as well.
+* optional ``open_new_window`` sets whether the link should open in a new window (default is False)
+* optional ``icon`` is a Font Awesome Solid https://fontawesome.com/icons?d=gallery&s=solid icon class (if you don't specify one, magical ponies will do it for you)
 
 4) profit!!
 
@@ -83,8 +83,8 @@ Where ...
 
 Where ...
 
-    * optional ``hide_app_list`` collapses the app list
-    * optional ``open_new_window`` makes all shortcuts open in a new window
+* optional ``hide_app_list`` collapses the app list
+* optional ``open_new_window`` makes all shortcuts open in a new window
 
 
 What are the settings used in the pretty image above?
@@ -158,13 +158,6 @@ What are the settings used in the pretty image above?
 I want to change how stuff looks
 ================================
 
-* to change the css overwrite the ``templates/admin_shortcuts/base.css`` template
-* to change the icons specify the mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
-
-
-Notes
------
-
-* Icons grabbed from Pixeden.com
-
+* to change the CSS overwrite the ``templates/admin_shortcuts/base.css`` template
+* to change the which icons are magically selected specify the mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
 
