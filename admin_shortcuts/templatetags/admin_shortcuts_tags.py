@@ -1,17 +1,28 @@
 import copy
 import inspect
 
+from django import __version__ as django_version
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import force_text
+
+if float(django_version[0:3]) >= 4.0:
+    from django.utils.encoding import force_str
+else:
+    from django.utils.encoding import force_text as force_str
 
 try:
     from django.core.urlresolvers import reverse
 except ImportError:
     from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
-from django.utils.translation import ugettext
+
+if float(django_version[0:3]) >= 4.0:
+    from django.utils.translation import gettext
+    from django.utils.translation import gettext_lazy as _
+else:
+    from django.utils.translation import ugettext as gettext
+    from django.utils.translation import ugettext_lazy as _
+
 
 try:
     from django.utils.module_loading import import_module
@@ -37,7 +48,7 @@ def admin_shortcuts(context):
             raise ImproperlyConfigured('settings.ADMIN_SHORTCUTS is improperly configured.')
 
         if group.get('title'):
-            group['title'] = ugettext(group['title'])
+            group['title'] = gettext(group['title'])
 
         enabled_shortcuts = []
         for shortcut in group.get('shortcuts'):
@@ -60,8 +71,8 @@ def admin_shortcuts(context):
                 shortcut['url'] += shortcut.get('url_extra', '')
 
             if not shortcut.get('icon'):
-                class_text = force_text(shortcut.get('url_name', shortcut.get('url', '')))
-                class_text += force_text(shortcut.get('title', ''))
+                class_text = force_str(shortcut.get('url_name', shortcut.get('url', '')))
+                class_text += force_str(shortcut.get('title', ''))
                 shortcut['icon'] = get_shortcut_class(class_text)
 
             if shortcut.get('count'):
@@ -71,7 +82,7 @@ def admin_shortcuts(context):
                 shortcut['count_new'] = eval_func(shortcut['count_new'], request)
 
             if shortcut.get('title'):
-                shortcut['title'] = ugettext(shortcut['title'])
+                shortcut['title'] = gettext(shortcut['title'])
 
             enabled_shortcuts.append(shortcut)
 
