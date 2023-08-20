@@ -123,7 +123,10 @@ def eval_func(func_path, request):
         module = import_module(module_str)
         result = getattr(module, func_str)
         if callable(result):
-            args, varargs, keywords, defaults = inspect.getargspec(result)
+            try:
+                args = inspect.signature(result).parameters
+            except AttributeError:  # Python version < 3.3
+                args = inspect.getargspec(result)[0]
             if 'request' in args:
                 result = result(request)
             else:
