@@ -7,6 +7,8 @@ from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
+logger = logging.getLogger(__name__)
+
 if float(django_version[0:3]) >= 4.0:
     from django.utils.encoding import force_str
 else:
@@ -57,8 +59,8 @@ def admin_shortcuts(context):
                 required_perms = shortcut['has_perms']
                 if isinstance(required_perms, str):
                     # backward compatibility
-                    logging.warning('''admin_shortcuts: this field has been modified and this use is deprecated\n
-                        `has_perms` should now be a list of string permissions, consider also the `test_func` field''')
+                    logger.warning(('Field `has_perms` has been modified and using a function here is deprecated. '
+                        '`has_perms` should now be a list of string permissions, consider also the `test_func` field.'))
                     if not eval_func(required_perms, request):
                         continue
                 elif not request.user.has_perms(required_perms):
@@ -68,7 +70,7 @@ def admin_shortcuts(context):
                 test_func = shortcut['test_func']
                 authorized = eval_func(test_func, request)
                 if isinstance(authorized, str):
-                    logging.warning(f'admin_shortcuts: test_func `{test_func}` not found')
+                    logger.warning(f'The test_func `{test_func}` was not found')
                     continue
                 elif not authorized:
                     continue
