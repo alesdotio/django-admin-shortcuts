@@ -1,5 +1,6 @@
 import copy
 import inspect
+import logging
 
 from django import __version__ as django_version
 from django import template
@@ -53,7 +54,23 @@ def admin_shortcuts(context):
         enabled_shortcuts = []
         for shortcut in group.get('shortcuts'):
             if shortcut.get('has_perms'):
-                if not eval_func(shortcut['has_perms'], request):
+                required_perms = shortcut['has_perms']
+                if isinstance(required_perms, str):
+                    # backward compatibility
+                    logging.warning('''admin_shortcuts: this field has been modified and this use is deprecated\n
+                        `has_perms` should now be a list of string permissions, consider also the `test_func` field''')
+                    if not eval_func(required_perms, request):
+                        continue
+                elif not request.user.has_perms(required_perms):
+                    continue
+
+            if shortcut.get('test_func'):
+                test_func = shortcut['test_func']
+                authorized = eval_func(test_func, request)
+                if isinstance(authorized, str):
+                    logging.warning(f'admin_shortcuts: test_func `{test_func}` not found')
+                    continue
+                elif not authorized:
                     continue
 
             if not shortcut.get('url'):
