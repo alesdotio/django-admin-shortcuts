@@ -38,12 +38,12 @@ ADMIN_SHORTCUTS = [
             {
                 'title': 'Groups',
                 'url_name': 'admin:auth_group_changelist',
-                'count': 'example.utils.count_groups',
+                               'has_perms': ['example.change_group', 'example.delete_group'],
             },
             {
                 'title': 'Add user',
                 'url_name': 'admin:auth_user_add',
-                'has_perms': 'example.utils.has_perms_to_users',
+                'test_func': 'example.utils.has_perms_to_users',
             },
         ]
     },
@@ -59,8 +59,9 @@ Where ...
 * optional `title` is the title of the shortcut
 * optional `count` and `count_new` are paths to a function inside your project that returns something interesting (like a count of all products or a count of all pending orders).
   The function can optionally take one argument, `request`, which is the current Django `HttpRequest` object.
-* optional `has_perms` is a path to a function inside your project that returns information about shortcut visibility on the django admin homepage.
+* optional `test_func` is a path to a function inside your project that returns a boolean. If True the shortcut is displayed.
   Like above, this function can optionally take one argument `request` as well.
+* optional `has_perms` is a list of strings representing the built-in admin permissions required to display the shortcut.
 * optional `open_new_window` sets whether the link should open in a new window (default is False)
 * optional `icon` is a Font Awesome Solid https://fontawesome.com/icons?d=gallery&s=solid icon class (if you don't specify one, magical ponies will do it for you)
 
@@ -106,10 +107,13 @@ ADMIN_SHORTCUTS = [
                 'title': 'Groups',
                 'url_name': 'admin:auth_group_changelist',
                 'count': 'example.utils.count_groups',
+                'has_perms': ['example.change_group', 'example.delete_group'],
             },
             {
                 'title': 'Add user',
                 'url_name': 'admin:auth_user_add',
+                'test_func': 'example.utils.has_perms_to_users',
+           'url_name': 'admin:auth_user_add',
                 'has_perms': 'example.utils.has_perms_to_users',
             },
         ]
