@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'example'
 ]
 
 MIDDLEWARE = [
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'example.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + "/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -149,11 +150,12 @@ ADMIN_SHORTCUTS = [
                 'title': 'Groups',
                 'url_name': 'admin:auth_group_changelist',
                 'count': 'example.utils.count_groups',
+                'has_perms': ['example.change_group', 'example.delete_group'],
             },
             {
                 'title': 'Add user',
                 'url_name': 'admin:auth_user_add',
-                'has_perms': 'example.utils.has_perms_to_users',
+                'test_func': 'example.utils.has_perms_to_users',
             },
         ]
     },
