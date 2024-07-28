@@ -131,6 +131,7 @@ STATIC_URL = '/static/'
 
 # Admin Shortcuts
 
+
 ADMIN_SHORTCUTS = [
     {
         'shortcuts': [
@@ -156,6 +157,7 @@ ADMIN_SHORTCUTS = [
                 'title': 'Add user',
                 'url_name': 'admin:auth_user_add',
                 'test_func': 'example.utils.has_perms_to_users',
+                'has_perms': 'example.utils.has_perms_to_users',
             },
         ]
     },
@@ -169,10 +171,10 @@ ADMIN_SHORTCUTS = [
             {
                 'title': 'Files',
                 'url_name': 'admin:index',
+                'icon': '❤️'
             },
             {
                 'title': 'Contact forms',
-                'icon': 'columns',
                 'url_name': 'admin:index',
                 'count_new': '3',
             },
@@ -181,7 +183,7 @@ ADMIN_SHORTCUTS = [
                 'url_name': 'admin:index',
             },
             {
-                'title': _('Orders'),
+                'title': 'Orders',
                 'url_name': 'admin:index',
                 'count_new': '12',
             },
@@ -189,7 +191,5 @@ ADMIN_SHORTCUTS = [
     },
 ]
 ADMIN_SHORTCUTS_SETTINGS = {
-    'show_on_all_pages': True,
-    'hide_app_list': True,
     'open_new_window': False,
 }

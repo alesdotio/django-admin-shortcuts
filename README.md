@@ -52,7 +52,7 @@ ADMIN_SHORTCUTS = [
 
 Where ...
 
-* required `url_name` is a name that will be resolved using Django's reverse url method (see Django docs https://docs.djangoproject.com/en/2.0/ref/contrib/admin/#admin-reverse-urls)
+* required `url_name` is a name that will be resolved using Django's reverse url method (see Django docs https://docs.djangoproject.com/en/5.0/ref/contrib/admin/#admin-reverse-urls)
 * optional `app_name` is the name of the admin app that will be used for URL reversal. You can safely ignore this if you have only one admin site in your ``urls.py``
 * optional `url` is a direct link that will override `url_name`
 * optional `url_extra` is extra stuff to be attached at the end of the url (like GET data for pre-filtering admin views)
@@ -63,7 +63,7 @@ Where ...
   Like above, this function can optionally take one argument `request` as well.
 * optional `has_perms` is a list of strings representing the built-in admin permissions required to display the shortcut.
 * optional `open_new_window` sets whether the link should open in a new window (default is False)
-* optional `icon` is a Font Awesome Solid https://fontawesome.com/icons?d=gallery&s=solid icon class (if you don't specify one, magical ponies will do it for you)
+* optional `icon` is an emoji (if you don't specify one, magical ponies will do it for you)
 
 4) profit!!
 
@@ -71,8 +71,6 @@ Where ...
 
 ```
 ADMIN_SHORTCUTS_SETTINGS = {
-    'show_on_all_pages': False,
-    'hide_app_list': False,
     'open_new_window': False,
 }
 ```
@@ -80,8 +78,6 @@ ADMIN_SHORTCUTS_SETTINGS = {
 
 Where ...
 
-* optional `show_on_all_pages` shows the shortcuts on all admin pages
-* optional `hide_app_list` collapses the app list
 * optional `open_new_window` makes all shortcuts open in a new window
 
 
@@ -113,7 +109,6 @@ ADMIN_SHORTCUTS = [
                 'title': 'Add user',
                 'url_name': 'admin:auth_user_add',
                 'test_func': 'example.utils.has_perms_to_users',
-           'url_name': 'admin:auth_user_add',
                 'has_perms': 'example.utils.has_perms_to_users',
             },
         ]
@@ -128,10 +123,10 @@ ADMIN_SHORTCUTS = [
             {
                 'title': 'Files',
                 'url_name': 'admin:index',
+                'icon': '❤️'
             },
             {
                 'title': 'Contact forms',
-                'icon': 'columns',
                 'url_name': 'admin:index',
                 'count_new': '3',
             },
@@ -148,8 +143,6 @@ ADMIN_SHORTCUTS = [
     },
 ]
 ADMIN_SHORTCUTS_SETTINGS = {
-    'show_on_all_pages': True,
-    'hide_app_list': True,
     'open_new_window': False,
 }
 ```
@@ -158,5 +151,5 @@ ADMIN_SHORTCUTS_SETTINGS = {
 ## I want to change how stuff looks
 
 * to change the CSS overwrite the ``templates/admin_shortcuts/base.css`` template
-* to change the which icons are magically selected specify the mappings in ``ADMIN_SHORTCUTS_CLASS_MAPPINGS``
+* to change the which icons are magically selected specify the mappings in ``ADMIN_SHORTCUTS_ICON_MAPPINGS``
 

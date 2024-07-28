@@ -1,5 +1,5 @@
 {% block main %}{% endblock %}
 {% block count %}{% endblock %}
-{% block advanced %}{% endblock %}
 {% block icons %}{% endblock %}
+{% block dark_mode %}{% endblock %}
 {% block extra %}{% endblock %}

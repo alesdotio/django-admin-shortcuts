@@ -1,0 +1,15 @@
+{% extends "admin/index.html" %}
+{% load admin_shortcuts_tags %}
+
+{% block nav-breadcrumbs %}
+    <div class="admin_shortcuts">
+        {% admin_shortcuts %}
+    </div>
+    {{ block.super }}
+{% endblock %}
+
+
+{% block extrastyle %}
+	{{ block.super }}
+	<style type="text/css">{% admin_shortcuts_css %}</style>
+{% endblock %}
