@@ -1,6 +1,6 @@
 # Django Admin Shortcuts
 
-![image](https://raw.github.com/alesdotio/django-admin-shortcuts/gh-pages/images/django-admin-shortcuts.png)
+![image](https://raw.githubusercontent.com/alesdotio/django-admin-shortcuts/3.0.0/example/django-admin-shortcuts-screenshot.png)
 
 
 ## What is this?
