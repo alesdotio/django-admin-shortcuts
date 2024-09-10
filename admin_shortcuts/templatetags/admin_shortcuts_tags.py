@@ -87,7 +87,9 @@ def admin_shortcuts(context):
                 else:
                     shortcut['url'] = reverse(url_name, current_app=current_app)
 
-                shortcut['url'] += shortcut.get('url_extra', '')
+            if shortcut.get('url_extra'):
+                shortcut['url_extra'] = eval_func(shortcut['url_extra'], request)
+                shortcut['url'] += shortcut['url_extra']
 
             if not shortcut.get('icon'):
                 class_text = force_str(shortcut.get('url_name', shortcut.get('url', '')))
